@@ -1,0 +1,41 @@
+{
+  "name": "hubot-home-assistant",
+  "description": "A hubot integration for Home-Assistant.io",
+  "version": "0.0.1",
+  "author": "Robbie Trencheny <me@robbiet.us>",
+  "license": "MIT",
+  "keywords": "hubot, hubot-scripts, homeautomation, home-assistant.io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/home-assistant/hubot-home-assistant.git"
+  },
+  "bugs": {
+    "url": "https://github.com/home-assistant/hubot-home-assistant/issues"
+  },
+  "dependencies": {
+    "eventsource": "^0.2.1",
+    "lodash": "^4.6.1",
+    "request": "^2.69.0"
+  },
+  "peerDependencies": {
+    "hubot": "2.x"
+  },
+  "devDependencies": {
+    "chai": "^2.1.1",
+    "coffee-script": "1.6.3",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-mocha-test": "~0.12.7",
+    "grunt-release": "~0.11.0",
+    "hubot": "2.x",
+    "matchdep": "~0.3.0",
+    "mocha": "^2.1.0",
+    "sinon": "^1.13.0",
+    "sinon-chai": "^2.7.0"
+  },
+  "main": "index.coffee",
+  "scripts": {
+    "test": "grunt test"
+  }
+}

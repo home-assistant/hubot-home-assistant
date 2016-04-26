@@ -1,6 +1,6 @@
 # hubot-home-assistant
 
-:speech_balloon: :robot_face:  A Hubot module for interacting with Home Assistant via chat
+:speech_balloon: :house_with_garden: A Hubot module for interacting with Home Assistant via chat
 
 See [`src/home-assistant.coffee`](src/home-assistant.coffee) for full documentation.
 

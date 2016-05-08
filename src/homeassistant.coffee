@@ -4,6 +4,7 @@
 # Configuration:
 #   HUBOT_HOME_ASSISTANT_HOST - the hostname for Home Assistant, like `https://demo.home-assistant.io`.
 #   HUBOT_HOME_ASSISTANT_API_PASSWORD - the API password for Home Assistant.
+#   HUBOT_HOME_ASSISTANT_MONITOR_EVENTS - defaults to true. Can be set to false to skip all streaming / monitoring
 #   HUBOT_HOME_ASSISTANT_MONITOR_ALL_ENTITIES - whether to monitor all entities by default
 #   HUBOT_HOME_ASSISTANT_EVENTS_DESTINATION - which room/channel/chat to send events to
 #
@@ -260,7 +261,8 @@ module.exports = (robot) ->
     return
 
   cacheEntities(robot)
-  streamEvents(robot)
+  if process.env.HUBOT_HOME_ASSISTANT_MONITOR_EVENTS != "false"
+    streamEvents(robot)
 
   robot.respond /state of (.*)/i, (res) ->
     device = getDeviceByFriendlyName(robot, res, res.match[1])

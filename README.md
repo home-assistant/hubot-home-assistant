@@ -2,7 +2,7 @@
 
 :speech_balloon: :house_with_garden: A Hubot module for interacting with Home Assistant via chat
 
-See [`src/home-assistant.coffee`](src/home-assistant.coffee) for full documentation.
+See [`src/homeassistant.coffee`](src/homeassistant.coffee) for full documentation.
 
 ## Installation
 

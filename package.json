@@ -3,7 +3,7 @@
   "description": "A hubot integration for Home-Assistant.io",
   "version": "0.0.1",
   "author": "Robbie Trencheny <me@robbiet.us>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": "hubot, hubot-scripts, homeautomation, home-assistant.io",
   "repository": {
     "type": "git",

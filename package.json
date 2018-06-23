@@ -14,29 +14,34 @@
   },
   "dependencies": {
     "eventsource": "^0.2.1",
+    "homeassistant": "^0.1.4",
     "lodash": "^4.6.1",
-    "request": "^2.69.0"
+    "moment": "^2.22.2"
   },
   "peerDependencies": {
-    "hubot": "2.x"
+    "hubot": ">=2 <10 || 0.0.0-development"
   },
   "devDependencies": {
-    "chai": "^2.1.1",
-    "coffee-script": "1.6.3",
-    "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-mocha-test": "~0.12.7",
-    "grunt-release": "~0.11.0",
+    "chai": "^4.1.2",
+    "coffee-script": "1.12.7",
+    "grunt": "^1.0.2",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-watch": "~1.0.0",
+    "grunt-mocha-test": "~0.13.3",
+    "grunt-release": "~0.14.0",
     "hubot": "2.x",
-    "matchdep": "~0.3.0",
-    "mocha": "^2.1.0",
-    "moment": "^2.13.0",
-    "sinon": "^1.13.0",
-    "sinon-chai": "^2.7.0"
+    "hubot-test-helper": "^1.9.0",
+    "husky": "^0.14.3",
+    "matchdep": "~2.0.0",
+    "mocha": "^5.1.1",
+    "nock": "^9.2.5",
+    "sinon": "^4.5.0",
+    "sinon-chai": "^3.0.0"
   },
   "main": "index.coffee",
   "scripts": {
+    "precommit": "npm test",
+    "prepush": "npm test",
     "test": "grunt test"
   }
 }

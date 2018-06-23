@@ -13,9 +13,9 @@
     "url": "https://github.com/home-assistant/hubot-home-assistant/issues"
   },
   "dependencies": {
-    "eventsource": "^0.2.1",
+    "eventsource": "^1.0.5",
     "homeassistant": "^0.1.4",
-    "lodash": "^4.6.1",
+    "lodash": "^4.17.10",
     "moment": "^2.22.2"
   },
   "peerDependencies": {
@@ -24,19 +24,18 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "coffee-script": "1.12.7",
-    "grunt": "^1.0.2",
+    "grunt": "^1.0.3",
     "grunt-cli": "^1.2.0",
-    "grunt-contrib-watch": "~1.0.0",
+    "grunt-contrib-watch": "~1.1.0",
     "grunt-mocha-test": "~0.13.3",
     "grunt-release": "~0.14.0",
-    "hubot": "2.x",
     "hubot-test-helper": "^1.9.0",
     "husky": "^0.14.3",
     "matchdep": "~2.0.0",
-    "mocha": "^5.1.1",
-    "nock": "^9.2.5",
-    "sinon": "^4.5.0",
-    "sinon-chai": "^3.0.0"
+    "mocha": "^5.2.0",
+    "nock": "^9.3.3",
+    "sinon": "^6.0.0",
+    "sinon-chai": "^3.2.0"
   },
   "main": "index.coffee",
   "scripts": {

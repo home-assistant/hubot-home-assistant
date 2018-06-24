@@ -33,7 +33,7 @@ module.exports = (robot) ->
   hassUrl = new URL(process.env.HUBOT_HOME_ASSISTANT_HOST)
   hass = new HomeAssistant({
     host: "#{hassUrl.protocol}//#{hassUrl.hostname}",
-    port: hassUrl.port,
+    port: if !hassUrl.port then (if hassUrl.protocol == 'https:' then '443' else '80') else hassUrl.port,
     password: process.env.HUBOT_HOME_ASSISTANT_API_PASSWORD,
     ignoreCert: process.env.HUBOT_HOME_ASSISTANT_IGNORE_CERT || false
   })

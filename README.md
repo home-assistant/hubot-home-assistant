@@ -57,3 +57,49 @@ Set the entity state to the given value.
 <hubot> @alice Setting Bob's iPhone to home
 <hubot> @alice Bob's iPhone set to home
 ```
+
+## Streaming Capabilities
+
+In addition to directly interacting with Home Assistant, this package will allow you to stream entity status changes (e.g. turn a light on, home temperature rises, etc.) into a room/channel/user of your choice.
+
+1. Set `HUBOT_HOME_ASSISTANT_MONITOR_EVENTS` to any value to enable streaming.
+2. Set `HUBOT_HOME_ASSISTANT_EVENTS_DESTINATION` to where you want the messages to be seen. By default, they will go to a channel/room called `#home-assistant`.
+3. Restart your Hubot
+
+### Option 1 - Monitor Everything
+
+Note that Home Assistant will send a lot of change events throughout the day if you have several components configured. For example, if you have a thermostat configured, it will send an event for every detected temperature change.
+
+1. Set `HUBOT_HOME_ASSISTANT_MONITOR_ALL_ENTITIES` to any value.
+2. Restart your Hubot
+
+### Option 2 - Monitor Specific Devices
+
+1. Ensure that `HUBOT_HOME_ASSISTANT_MONITOR_ALL_ENTITIES` is not set in the configuration.
+2. Update your Home Assistant configuration under the `customize`, `customize_domain` or `customize_blob` key to include the `hubot_monitor: true` attribute. [See documentation](https://www.home-assistant.io/docs/configuration/customizing-devices/) for more details.
+3. Restart your Hubot
+
+**Examples:**
+
+```yaml
+homeassistant:
+
+  #...
+
+  # Set a specific device to monitor
+  customize:
+    climate.my_ecobee3:
+      hubot_monitor: true
+
+  # Monitor all devices in a particular domain
+  customize_domain:
+    alarm_control_panel:
+      hubot_monitor: true
+    light:
+      hubot_monitor: true
+
+  # Monitor devices matching a pattern
+  customize_blob:
+    "device_tracker.*_iphone":
+      hubot_monitor: true
+```

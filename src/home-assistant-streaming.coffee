@@ -148,6 +148,10 @@ module.exports = (robot) ->
     @es = new EventSource("#{process.env.HUBOT_HOME_ASSISTANT_HOST}/api/stream", {headers: {'x-ha-access': process.env.HUBOT_HOME_ASSISTANT_API_PASSWORD}})
     @es.addEventListener 'message', (msg) ->
       if msg.data != "ping"
-        msgData = JSON.parse(msg.data)
-        if msgData.event_type == "state_changed"
-          sendEvent msgData
+        try
+          msgData = JSON.parse(msg.data)
+          if msgData.event_type == "state_changed" and msgData.data.old_state.state != msgData.data.new_state.state
+            robot.logger.debug msgData
+            sendEvent msgData
+        catch e
+          robot.logger.error e

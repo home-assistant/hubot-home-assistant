@@ -9,9 +9,9 @@
 #   HUBOT_HOME_ASSISTANT_EVENTS_DESTINATION - which room/channel/chat to send events to
 #
 # Commands:
-#   hubot state of <friendly name of entity> - returns the current state of the entity
-#   hubot turn <friendly name of entity> <on|off> - turn the entity on/off
-#   hubot set <friendly name of entity> to <new state> - set the entity state to the given value
+#   hubot hass state of <friendly name of entity> - returns the current state of the entity
+#   hubot hass turn <friendly name of entity> <on|off> - turn the entity on/off
+#   hubot hass set <friendly name of entity> to <new state> - set the entity state to the given value
 #
 # Author:
 #   Robbie Trencheny <me@robbiet.us>
@@ -89,7 +89,7 @@ module.exports = (robot) ->
 
   ##
   # Get the current state of a device
-  robot.respond /state of (.*)/i, (res) ->
+  robot.respond /(?:hass|ha) state of (.*)/i, (res) ->
     getDeviceByFriendlyName(res.match[1])
     .then (device) ->
       robot.logger.debug 'device', device
@@ -101,7 +101,7 @@ module.exports = (robot) ->
 
   ##
   # Turn a device on/off
-  robot.respond /turn (.*) (on|off)/i, (res) ->
+  robot.respond /(?:hass|ha) turn (.*) (on|off)/i, (res) ->
     friendlyName = res.match[1]
     state = res.match[2]
     setPower(friendlyName, state)
@@ -113,7 +113,7 @@ module.exports = (robot) ->
 
   ##
   # Set a device to a particular state
-  robot.respond /set (.*) to (.*)/i, (res) ->
+  robot.respond /(?:hass|ha) set (.*) to (.*)/i, (res) ->
     friendlyName = res.match[1]
     state = res.match[2]
     res.reply "Setting #{friendlyName} to #{state}"

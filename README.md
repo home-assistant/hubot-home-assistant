@@ -30,30 +30,30 @@ Then add **hubot-home-assistant** to your `external-scripts.json`:
 
 ## Commands:
 
-### `hubot state of <friendly name of entity>`
+### Get the state of an entity
 
-Returns the current state of the entity
+Returns the current state of the entity.
 
 ```
-<alice> hubot state of Living Room Downlights
+<alice> hubot hass state of Living Room Downlights
 <hubot> @alice Living Room Downlights is off (since 2 hours ago)
 ```
 
-### `hubot turn <friendly name of entity> <on|off>`
+### Toggle an entity on or off
 
 Turn the entity on/off.
 
 ```
-<alice> hubot turn Living Room Downlights on
+<alice> hubot hass turn Living Room Downlights on
 <hubot> @alice Living Room Downlights turned on
 ```
 
-### `hubot set <friendly name of entity> to <new state>`
+### Set an entity to a desired state
 
 Set the entity state to the given value.
 
 ```
-<alice> hubot set Bob's iPhone to home
+<alice> hubot hass set Bob's iPhone to home
 <hubot> @alice Setting Bob's iPhone to home
 <hubot> @alice Bob's iPhone set to home
 ```

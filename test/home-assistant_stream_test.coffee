@@ -6,7 +6,6 @@ fs = require 'fs'
 expect = chai.expect
 
 helper = new Helper [
-  '../src/home-assistant.coffee',
   '../src/home-assistant-streaming.coffee'
 ]
 

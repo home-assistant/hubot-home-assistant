@@ -30,7 +30,7 @@ describe 'home-assistant', ->
     nock.cleanAll()
     @room.destroy()
 
-  it 'gets the state of a particular device', (done) ->
+  it 'gets state of an entity by friendly name', (done) ->
     nock('http://hassio.local:8123')
       .get('/api/states')
       .replyWithFile(200, __dirname + '/fixtures/states.json')
@@ -49,7 +49,27 @@ describe 'home-assistant', ->
       return
     , 1000)
 
-  it 'returns an error if when friendly name not found to get state', (done) ->
+  it 'gets state of an entity by entity_id', (done) ->
+    nock('http://hassio.local:8123')
+      .get('/api/states')
+      .replyWithFile(200, __dirname + '/fixtures/states.json')
+
+    selfRoom = @room
+    selfRoom.user.say('alice', '@hubot hass state of light.den')
+    setTimeout(() ->
+      try
+        expect(selfRoom.messages).to.eql [
+          ['alice', '@hubot hass state of light.den']
+          ['hubot', '@alice Den is off (since 2 hours ago)']
+        ]
+        done()
+      catch err
+        done err
+      return
+    , 1000)
+
+
+  it 'returns an error for getting state of missing entity', (done) ->
     nock('http://hassio.local:8123')
       .get('/api/states')
       .replyWithFile(200, __dirname + '/fixtures/states.json')
@@ -68,21 +88,21 @@ describe 'home-assistant', ->
       return
     , 1000)
 
-  it 'turns a device on', (done) ->
+  it 'turns an entity on by friendly name', (done) ->
     nock('http://hassio.local:8123')
       .get('/api/states')
       .replyWithFile(200, __dirname + '/fixtures/states.json')
     nock('http://hassio.local:8123')
-      .post('/api/services/turn_on/homeassistant')
+      .post('/api/services/light/turn_on')
       .replyWithFile(200, __dirname + '/fixtures/device-turn_on.json')
 
     selfRoom = @room
-    selfRoom.user.say('alice', '@hubot hass turn Living Room Downlights on')
+    selfRoom.user.say('alice', '@hubot hass turn Nightstand on')
     setTimeout(() ->
       try
         expect(selfRoom.messages).to.eql [
-          ['alice', '@hubot hass turn Living Room Downlights on']
-          ['hubot', '@alice Living Room Downlights turned on']
+          ['alice', '@hubot hass turn Nightstand on']
+          ['hubot', '@alice Nightstand turned on']
         ]
         done()
       catch err
@@ -90,7 +110,29 @@ describe 'home-assistant', ->
       return
     , 1000)
 
-  it 'returns an error when friendly name not found to turn on', (done) ->
+  it 'turns an entity on by entity_id', (done) ->
+    nock('http://hassio.local:8123')
+      .get('/api/states')
+      .replyWithFile(200, __dirname + '/fixtures/states.json')
+    nock('http://hassio.local:8123')
+      .post('/api/services/light/turn_on')
+      .replyWithFile(200, __dirname + '/fixtures/device-turn_on.json')
+
+    selfRoom = @room
+    selfRoom.user.say('alice', '@hubot hass turn light.nightstand on')
+    setTimeout(() ->
+      try
+        expect(selfRoom.messages).to.eql [
+          ['alice', '@hubot hass turn light.nightstand on']
+          ['hubot', '@alice Nightstand turned on']
+        ]
+        done()
+      catch err
+        done err
+      return
+    , 1000)
+
+  it 'returns an error when turning on missing entity', (done) ->
     nock('http://hassio.local:8123')
       .get('/api/states')
       .replyWithFile(200, __dirname + '/fixtures/states.json')
@@ -109,7 +151,7 @@ describe 'home-assistant', ->
       return
     , 1000)
 
-  it 'sets a device tracker to home', (done) ->
+  it 'set entity state', (done) ->
     nock('http://hassio.local:8123')
       .get('/api/states')
       .replyWithFile(200, __dirname + '/fixtures/states.json')
@@ -132,7 +174,7 @@ describe 'home-assistant', ->
       return
     , 1000)
 
-  it 'returns an error when friendly name not found for device tracker', (done) ->
+  it 'returns an error when setting state of missing entity', (done) ->
     nock('http://hassio.local:8123')
       .get('/api/states')
       .replyWithFile(200, __dirname + '/fixtures/states.json')

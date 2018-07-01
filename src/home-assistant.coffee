@@ -61,13 +61,15 @@ module.exports = (robot) ->
   #
   # @param string
   # @return Promise
-  getDeviceByFriendlyName = (friendlyName) ->
-    friendlyName = friendlyName.replace '’', "'" # fix for Slack silliness
+  getDeviceByFriendlyName = (searchStr) ->
+    searchStr = searchStr.replace '’', "'" # fix for Slack silliness
     hass.states.list()
     .then (entities) ->
-      foundDevice = _.find entities, 'attributes': 'friendly_name': friendlyName
-      if !foundDevice
-        throw new Error('No device found with that name!')
+      foundDevice = _.find entities, 'attributes': 'friendly_name': searchStr
+      unless foundDevice
+        foundDevice = _.find entities, 'entity_id': searchStr
+        unless foundDevice
+          throw new Error('No device found with that name!')
       return foundDevice
 
   ##
@@ -82,13 +84,17 @@ module.exports = (robot) ->
     getDeviceByFriendlyName(friendlyName)
     .then (device) ->
       robot.logger.debug 'device', device
+      device_parts = device.entity_id.split('.')
+      device_domain = device_parts[0]
       service_data = entity_id: device.entity_id
-      callService('homeassistant', 'turn_'+state, service_data)
+      callService('turn_'+state, device_domain, service_data)
+      .then (device) ->
+        return device
       .catch (err) ->
         robot.logger.error err
 
   ##
-  # Get the current state of a device
+  # Get the state of an entity
   robot.respond /(?:hass|ha) state of (.*)/i, (res) ->
     getDeviceByFriendlyName(res.match[1])
     .then (device) ->
@@ -100,19 +106,7 @@ module.exports = (robot) ->
       robot.logger.error err
 
   ##
-  # Turn a device on/off
-  robot.respond /(?:hass|ha) turn (.*) (on|off)/i, (res) ->
-    friendlyName = res.match[1]
-    state = res.match[2]
-    setPower(friendlyName, state)
-    .then () ->
-      res.reply "#{friendlyName} turned #{state}"
-    .catch (err) ->
-      res.send err.message
-      robot.logger.error err
-
-  ##
-  # Set a device to a particular state
+  # Set the state of an entity
   robot.respond /(?:hass|ha) set (.*) to (.*)/i, (res) ->
     friendlyName = res.match[1]
     state = res.match[2]
@@ -130,6 +124,23 @@ module.exports = (robot) ->
       callService(domain, service, payload)
     .then () ->
       res.reply "#{friendlyName} set to #{state}"
+    .catch (err) ->
+      res.send err.message
+      robot.logger.error err
+
+  ##
+  # Turn a entity on/off
+  robot.respond /(?:hass|ha) turn (.*) (on|off)/i, (res) ->
+    searchStr = res.match[1]
+    state = res.match[2]
+    setPower(searchStr, state)
+    .then (entities) ->
+      device = _.find entities, 'attributes': 'friendly_name': searchStr
+      unless device
+        device = _.find entities, 'entity_id': searchStr
+        unless device
+          throw new Error('No device found with that name!')
+      res.reply "#{device.attributes.friendly_name} turned #{state}"
     .catch (err) ->
       res.send err.message
       robot.logger.error err

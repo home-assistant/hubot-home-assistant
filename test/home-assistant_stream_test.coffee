@@ -23,7 +23,7 @@ describe 'home-assistant streaming', ->
     process.env.HUBOT_HOME_ASSISTANT_EVENTS_DESTINATION='room1'
     process.env.HUBOT_HOME_ASSISTANT_MONITOR_ALL_ENTITIES='true'
     Date.now = mockDateNow
-    # nock.disableNetConnect()
+    nock.disableNetConnect()
     @room = helper.createRoom(httpd: false)
 
   afterEach ->
@@ -34,7 +34,7 @@ describe 'home-assistant streaming', ->
     delete process.env.HUBOT_HOME_ASSISTANT_EVENTS_DESTINATION
     delete process.env.HUBOT_HOME_ASSISTANT_MONITOR_ALL_ENTITIES
     Date.now = originalDateNow
-    # nock.cleanAll()
+    nock.cleanAll()
     @room.destroy()
 
   it 'receives a series of streamed events', (done) ->

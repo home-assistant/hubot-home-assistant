@@ -30,6 +30,15 @@ Then add **hubot-home-assistant** to your `external-scripts.json`:
 
 ## Commands:
 
+### List all entities
+
+Returns the current state of the entity. Note that it uses the `hidden` attribute flag to reduce this list. It will also exclude Views and Zones.
+
+```
+<alice> hubot hass list
+<hubot> sun.sun: Sun; camera.office: Office; camera.den: Den; group.commute: Commute; group.climate: Climate; ...
+```
+
 ### Get the state of an entity
 
 Returns the current state of the entity.

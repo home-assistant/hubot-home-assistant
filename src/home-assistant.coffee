@@ -9,9 +9,10 @@
 #   HUBOT_HOME_ASSISTANT_EVENTS_DESTINATION - which room/channel/chat to send events to
 #
 # Commands:
-#   hubot hass state of <friendly name of entity> - returns the current state of the entity
-#   hubot hass turn <friendly name of entity> <on|off> - turn the entity on/off
-#   hubot hass set <friendly name of entity> to <new state> - set the entity state to the given value
+#   hubot hass list - returns a list of entities and their friendly names
+#   hubot hass state of <friendly name or entity ID> - returns the current state of the entity
+#   hubot hass turn <friendly name or entity ID> <on|off> - turn the entity on/off
+#   hubot hass set <friendly name or entity ID> to <new state> - set the entity state to the given value
 #
 # Author:
 #   Robbie Trencheny <me@robbiet.us>
@@ -61,7 +62,7 @@ module.exports = (robot) ->
   #
   # @param string
   # @return Promise
-  getDeviceByFriendlyName = (searchStr) ->
+  getDeviceByFriendlyNameOrId = (searchStr) ->
     searchStr = searchStr.replace '’', "'" # fix for Slack silliness
     hass.states.list()
     .then (entities) ->
@@ -81,7 +82,7 @@ module.exports = (robot) ->
   # @param string
   # @return Promise
   setPower = (friendlyName, state) ->
-    getDeviceByFriendlyName(friendlyName)
+    getDeviceByFriendlyNameOrId(friendlyName)
     .then (device) ->
       robot.logger.debug 'device', device
       device_parts = device.entity_id.split('.')
@@ -94,9 +95,26 @@ module.exports = (robot) ->
         robot.logger.error err
 
   ##
+  # Get list of entities
+  robot.respond /(?:hass|ha) list/i, (res) ->
+    hass.states.list()
+    .then (states) ->
+      robot.logger.debug states
+      output = []
+      _.each states, (entity) ->
+        if (
+          entity.attributes.view != true && !entity.entity_id.match(/^zone\./i) && entity.attributes.hidden != true
+        )
+          output.push "#{entity.entity_id}: #{entity.attributes.friendly_name}"
+      res.send output.join('; ')
+    .catch (err) ->
+      res.send err.message
+      robot.logger.error err
+
+  ##
   # Get the state of an entity
   robot.respond /(?:hass|ha) state of (.*)/i, (res) ->
-    getDeviceByFriendlyName(res.match[1])
+    getDeviceByFriendlyNameOrId(res.match[1])
     .then (device) ->
       robot.logger.debug 'device', device
       last_changed = moment(new Date(device.last_changed)).fromNow()
@@ -111,12 +129,11 @@ module.exports = (robot) ->
     friendlyName = res.match[1]
     state = res.match[2]
     res.reply "Setting #{friendlyName} to #{state}"
-    getDeviceByFriendlyName(friendlyName)
+    getDeviceByFriendlyNameOrId(friendlyName)
     .then (device) ->
       parts = device.entity_id.split('.')
       domain = parts[0]
       service = parts[1]
-      # Check if a JSON object was passed
       try
         payload = JSON.parse(state)
       catch e

@@ -3,7 +3,7 @@
 #
 # Configuration:
 #   HUBOT_HOME_ASSISTANT_HOST - the hostname for Home Assistant, like `https://demo.home-assistant.io`.
-#   HUBOT_HOME_ASSISTANT_API_PASSWORD - the API password for Home Assistant.
+#   HUBOT_HOME_ASSISTANT_API_TOKEN - the long-lived access token for a Home Assistant user.
 #   HUBOT_HOME_ASSISTANT_MONITOR_EVENTS - defaults to true. Can be set to false to skip all streaming / monitoring
 #   HUBOT_HOME_ASSISTANT_MONITOR_ALL_ENTITIES - whether to monitor all entities by default
 #   HUBOT_HOME_ASSISTANT_EVENTS_DESTINATION - which room/channel/chat to send events to
@@ -27,15 +27,15 @@ module.exports = (robot) ->
     robot.logger.error "hubot-home-assistant included, but missing HUBOT_HOME_ASSISTANT_HOST."
     return
 
-  unless process.env.HUBOT_HOME_ASSISTANT_API_PASSWORD?
-    robot.logger.error "hubot-home-assistant included, but missing HUBOT_HOME_ASSISTANT_API_PASSWORD."
+  unless process.env.HUBOT_HOME_ASSISTANT_API_TOKEN?
+    robot.logger.error "hubot-home-assistant included, but missing HUBOT_HOME_ASSISTANT_API_TOKEN."
     return
 
   hassUrl = new URL(process.env.HUBOT_HOME_ASSISTANT_HOST)
   hass = new HomeAssistant({
     host: "#{hassUrl.protocol}//#{hassUrl.hostname}",
     port: if !hassUrl.port then (if hassUrl.protocol == 'https:' then '443' else '80') else hassUrl.port,
-    password: process.env.HUBOT_HOME_ASSISTANT_API_PASSWORD,
+    token: process.env.HUBOT_HOME_ASSISTANT_API_TOKEN,
     ignoreCert: process.env.HUBOT_HOME_ASSISTANT_IGNORE_CERT || false
   })
 

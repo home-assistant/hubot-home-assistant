@@ -23,10 +23,16 @@ Then add **hubot-home-assistant** to your `external-scripts.json`:
 | Variable                                    | Required? | Description        |
 | ------------------------------------------- | :-------: | ------------------ |
 | `HUBOT_HOME_ASSISTANT_HOST`                 | **Yes**   | The URL for your Home Assistant instance, e.g. `https://demo.home-assistant.io` or `http://hassio.local:8123`. |
-| `HUBOT_HOME_ASSISTANT_API_PASSWORD`         | **Yes**   | The password for your Home Assistant instance. |
+| `HUBOT_HOME_ASSISTANT_API_TOKEN`            | **Yes**   | The long-lived access token for a Home Assistant user. |
 | `HUBOT_HOME_ASSISTANT_MONITOR_EVENTS`       | No        | If set to any value, whether to monitor for events |
 | `HUBOT_HOME_ASSISTANT_MONITOR_ALL_ENTITIES` | No        | If set to any value, whether to monitor all entities for status changes |
 | `HUBOT_HOME_ASSISTANT_EVENTS_DESTINATION`   | No        | Which room/channel/chat to send events, e.g. `#homeassistant` or `@alice`; default: `#home-assistant` |
+
+### Upgrading from v1.x?
+
+The `HUBOT_HOME_ASSISTANT_API_PASSWORD` environment variable has been replaced by the `HUBOT_HOME_ASSISTANT_API_TOKEN`. You can obtain your long-lived access token in your `v0.77`+ instance of Home Assistant by clicking on your user icon in the navigation, scrolling to the section titled "Long-Lived Access Tokens," and clicking the "Create" button.
+
+[Read more](https://developers.home-assistant.io/docs/en/auth_api.html#long-lived-access-token) about long-lived access tokens.
 
 ## Commands:
 

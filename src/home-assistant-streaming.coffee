@@ -7,7 +7,7 @@ EventSource = require('eventsource')
 moment = require('moment')
 
 module.exports = (robot) ->
-  unless process.env.HUBOT_HOME_ASSISTANT_HOST? || process.env.HUBOT_HOME_ASSISTANT_API_PASSWORD?
+  unless process.env.HUBOT_HOME_ASSISTANT_HOST? || process.env.HUBOT_HOME_ASSISTANT_API_TOKEN?
     return
 
   cleanKey = (key) ->
@@ -145,7 +145,7 @@ module.exports = (robot) ->
   ##
   # Stream Home Assistant events
   if process.env.HUBOT_HOME_ASSISTANT_MONITOR_EVENTS?
-    @es = new EventSource("#{process.env.HUBOT_HOME_ASSISTANT_HOST}/api/stream", {headers: {'x-ha-access': process.env.HUBOT_HOME_ASSISTANT_API_PASSWORD}})
+    @es = new EventSource("#{process.env.HUBOT_HOME_ASSISTANT_HOST}/api/stream", {headers: {'x-ha-access': process.env.HUBOT_HOME_ASSISTANT_API_TOKEN}})
     @es.addEventListener 'message', (msg) ->
       if msg.data != "ping"
         try

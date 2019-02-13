@@ -18,7 +18,7 @@ describe 'home-assistant streaming', ->
   beforeEach ->
     process.env.HUBOT_LOG_LEVEL='error'
     process.env.HUBOT_HOME_ASSISTANT_HOST='http://hassio.local:8123'
-    process.env.HUBOT_HOME_ASSISTANT_API_PASSWORD='foobar'
+    process.env.HUBOT_HOME_ASSISTANT_API_TOKEN='foobar'
     process.env.HUBOT_HOME_ASSISTANT_MONITOR_EVENTS='true'
     process.env.HUBOT_HOME_ASSISTANT_EVENTS_DESTINATION='room1'
     process.env.HUBOT_HOME_ASSISTANT_MONITOR_ALL_ENTITIES='true'
@@ -29,7 +29,7 @@ describe 'home-assistant streaming', ->
   afterEach ->
     delete process.env.HUBOT_LOG_LEVEL
     delete process.env.HUBOT_HOME_ASSISTANT_HOST
-    delete process.env.HUBOT_HOME_ASSISTANT_API_PASSWORD
+    delete process.env.HUBOT_HOME_ASSISTANT_API_TOKEN
     delete process.env.HUBOT_HOME_ASSISTANT_MONITOR_EVENTS
     delete process.env.HUBOT_HOME_ASSISTANT_EVENTS_DESTINATION
     delete process.env.HUBOT_HOME_ASSISTANT_MONITOR_ALL_ENTITIES

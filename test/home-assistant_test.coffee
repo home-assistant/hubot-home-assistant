@@ -17,7 +17,7 @@ describe 'home-assistant', ->
   beforeEach ->
     process.env.HUBOT_LOG_LEVEL='error'
     process.env.HUBOT_HOME_ASSISTANT_HOST='http://hassio.local:8123'
-    process.env.HUBOT_HOME_ASSISTANT_API_PASSWORD='foobar'
+    process.env.HUBOT_HOME_ASSISTANT_API_TOKEN='foobar'
     Date.now = mockDateNow
     nock.disableNetConnect()
     @room = helper.createRoom()
@@ -25,6 +25,7 @@ describe 'home-assistant', ->
   afterEach ->
     delete process.env.HUBOT_LOG_LEVEL
     delete process.env.HUBOT_HOME_ASSISTANT_HOST
+    delete process.env.HUBOT_HOME_ASSISTANT_API_TOKEN
     delete process.env.HUBOT_HOME_ASSISTANT_API_PASSWORD
     Date.now = originalDateNow
     nock.cleanAll()

@@ -1,7 +1,7 @@
 {
   "name": "hubot-home-assistant",
   "description": "A hubot integration for Home-Assistant.io",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "author": "Robbie Trencheny <me@robbiet.us>",
   "license": "Apache-2.0",
   "keywords": "hubot, hubot-scripts, homeautomation, home-assistant.io",

@@ -4,6 +4,10 @@
 
 :speech_balloon: :house_with_garden: A Hubot module for interacting with Home Assistant via chat.
 
+## :rotating_light: DEPRECATED
+
+This repository is deprecated, unmaintained and archived.
+
 ## Installation
 
 In hubot project repo, run:
